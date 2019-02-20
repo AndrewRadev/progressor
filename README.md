@@ -29,3 +29,18 @@ Example output:
 [0040/1000, (004%), t/i: 0.5s, ETA: 7m:57.08s] Product 40
 ...
 ```
+
+Bonus helper method to just measure how long a block of code took:
+
+``` ruby
+Progressor.puts("Working on a thing") do
+  thing_work
+end
+```
+
+Outputs to stdout:
+
+```
+Working on a thing...
+Working on a thing DONE: 2.1s
+```
