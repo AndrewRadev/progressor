@@ -1,3 +1,5 @@
+require 'progressor/version'
+
 require 'benchmark'
 
 # Used to measure the running time of parts of a long-running task and output
@@ -28,8 +30,6 @@ require 'benchmark'
 #   ...
 #
 class Progressor
-  VERSION = '0.0.1'
-
   # Utility method to print a message with the time it took to run the contents
   # of the block.
   #
