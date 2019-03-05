@@ -1,4 +1,7 @@
 require 'progressor/version'
+require 'progressor/error'
+require 'progressor/formatting'
+require 'progressor/limited_sequence'
 
 require 'benchmark'
 
@@ -30,6 +33,8 @@ require 'benchmark'
 #   ...
 #
 class Progressor
+  include Formatting
+
   # Utility method to print a message with the time it took to run the contents
   # of the block.
   #
@@ -44,76 +49,32 @@ class Progressor
     Kernel.puts "#{message} DONE: #{format_time(measurement.real)}"
   end
 
-  def initialize(total_count:)
-    @total_count = total_count
-    @total_count_digits = total_count.to_s.length
-    @current = 0
-    @measurements = []
-    @averages = []
+  def initialize(total_count:, min_samples: 10, max_samples: 100)
+    @sequence = LimitedSequence.new({
+      total_count: total_count,
+      min_samples: min_samples,
+      max_samples: max_samples,
+    })
   end
 
   def run
-    @current += 1
-
     measurement = Benchmark.measure { yield self }
-
-    @measurements << measurement.real
-    # only keep last 1000
-    @measurements.shift if @measurements.count > 1000
-
-    @averages << average(@measurements)
-    @averages = @averages.compact
-    # only keep last 100
-    @averages.shift if @averages.count > 100
+    @sequence.push(measurement.real)
   end
 
   def skip(n)
-    @total_count -= n
+    @sequence.skip(n)
   end
 
   def to_s
-    [
-      "#{@current.to_s.rjust(@total_count_digits, '0')}/#{@total_count}",
-      "(#{((@current / @total_count.to_f) * 100).round.to_s.rjust(3, '0')}%)",
-      "t/i: #{self.class.format_time(per_iteration)}",
-      "ETA: #{self.class.format_time(eta)}",
-    ].join(', ')
+    @sequence.to_s
   end
 
   def per_iteration
-    return nil if @measurements.count < 10
-    average(@averages)
+    @sequence.per_iteration
   end
 
   def eta
-    return nil if @measurements.count < 10
-
-    remaining_time = per_iteration * (@total_count - @current)
-    remaining_time.round(2)
-  end
-
-  private
-
-  def self.format_time(time)
-    return "?s" if time.nil?
-
-    if time < 0.1
-      "#{(time * 1000).round(2)}ms"
-    elsif time < 60
-      "#{time.round(2)}s"
-    elsif time < 3600
-      minutes = time.to_i / 60
-      seconds = (time - minutes * 60).round(2)
-      "#{minutes}m:#{seconds}s"
-    else
-      hours = time.to_i / 3600
-      minutes = (time.to_i % 3600) / 60
-      seconds = (time - (hours * 3600 + minutes * 60)).round(2)
-      "#{hours}h:#{minutes}m:#{seconds}s"
-    end
-  end
-
-  def average(collection)
-    collection.inject(&:+) / collection.count.to_f
+    @sequence.eta
   end
 end
