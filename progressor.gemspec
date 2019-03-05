@@ -1,4 +1,4 @@
-require File.expand_path('../lib/progressor', __FILE__)
+require File.expand_path('../lib/progressor/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name    = 'progressor'
