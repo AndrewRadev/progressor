@@ -2,7 +2,7 @@ require 'spec_helper'
 
 class Progressor
   describe LimitedSequence do
-    it "Provides an per-iteration time based on the average of averages" do
+    it "provides an per-iteration time based on the average of averages" do
       seq = LimitedSequence.new(total_count: 100, min_samples: 1, max_samples: 100)
 
       seq.push(1)
@@ -18,7 +18,7 @@ class Progressor
       expect(seq.per_iteration).to eq 1.2
     end
 
-    it "Provides an ETA" do
+    it "provides an ETA" do
       seq = LimitedSequence.new(total_count: 100, min_samples: 1, max_samples: 100)
 
       seq.push(1)

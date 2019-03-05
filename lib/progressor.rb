@@ -2,6 +2,7 @@ require 'progressor/version'
 require 'progressor/error'
 require 'progressor/formatting'
 require 'progressor/limited_sequence'
+require 'progressor/unlimited_sequence'
 
 require 'benchmark'
 
@@ -49,12 +50,19 @@ class Progressor
     Kernel.puts "#{message} DONE: #{format_time(measurement.real)}"
   end
 
-  def initialize(total_count:, min_samples: 10, max_samples: 100)
-    @sequence = LimitedSequence.new({
-      total_count: total_count,
-      min_samples: min_samples,
-      max_samples: max_samples,
-    })
+  def initialize(total_count: nil, min_samples: 10, max_samples: 100)
+    if total_count
+      @sequence = LimitedSequence.new({
+        total_count: total_count,
+        min_samples: min_samples,
+        max_samples: max_samples,
+      })
+    else
+      @sequence = UnlimitedSequence.new({
+        min_samples: min_samples,
+        max_samples: max_samples,
+      })
+    end
   end
 
   def run
