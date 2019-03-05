@@ -50,5 +50,31 @@ class Progressor
 
       expect(seq.per_iteration).to eq(1)
     end
+
+    describe "#to_s" do
+      it "provides a readable description of the state of the sequence" do
+        Timecop.freeze do
+          seq = UnlimitedSequence.new(min_samples: 1, max_samples: 100)
+
+          expect(seq.to_s).to eq '1, t: 0.0ms, t/i: ?s'
+
+          seq.push(1)
+          Timecop.travel(Time.now + 1)
+
+          expect(seq.to_s).to eq '2, t: 1.0s, t/i: 1.0s'
+
+          seq.push(9)
+          Timecop.travel(Time.now + 9)
+          expect(seq.to_s).to eq '3, t: 10.0s, t/i: 3.0s'
+        end
+      end
+
+      it "allows custom formatting" do
+        formatter =  -> (s) { "UnlimitedSequence<#{s.min_samples}, #{s.max_samples}>" }
+        seq = UnlimitedSequence.new(min_samples: 1, max_samples: 100, formatter: formatter)
+
+        expect(seq.to_s).to eq 'UnlimitedSequence<1, 100>'
+      end
+    end
   end
 end

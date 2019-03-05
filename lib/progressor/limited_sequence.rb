@@ -2,16 +2,18 @@ class Progressor
   class LimitedSequence
     include Formatting
 
-    attr_reader :total_count, :min_samples, :max_samples
+    attr_reader :total_count, :min_samples, :max_samples, :current, :start_time
 
-    def initialize(total_count:, min_samples: 10, max_samples: 100)
+    def initialize(total_count:, min_samples: 10, max_samples: 100, formatter: nil)
       @total_count = total_count
       @min_samples = min_samples
       @max_samples = max_samples
+      @formatter   = formatter
 
       raise Error.new("min_samples needs to be a positive number") if min_samples <= 0
       raise Error.new("max_samples needs to be larger than min_samples") if max_samples <= min_samples
 
+      @start_time         = Time.now
       @total_count_digits = total_count.to_s.length
       @current            = 0
       @measurements       = []
@@ -35,9 +37,11 @@ class Progressor
     end
 
     def to_s
+      return @formatter.call(self).to_s if @formatter
+
       [
         "#{@current.to_s.rjust(@total_count_digits, '0')}/#{@total_count}",
-        "(#{((@current / @total_count.to_f) * 100).round.to_s.rjust(3, '0')}%)",
+        "#{((@current / @total_count.to_f) * 100).round.to_s.rjust(3, '0')}%",
         "t/i: #{format_time(per_iteration)}",
         "ETA: #{format_time(eta)}",
       ].join(', ')

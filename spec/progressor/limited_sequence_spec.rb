@@ -68,5 +68,26 @@ class Progressor
       expect(seq.per_iteration).to eq(1)
       expect(seq.eta).to eq(93)
     end
+
+    describe "#to_s" do
+      it "provides a readable description of the state of the sequence" do
+        seq = LimitedSequence.new(total_count: 100, min_samples: 1, max_samples: 100)
+
+        expect(seq.to_s).to eq '000/100, 000%, t/i: ?s, ETA: ?s'
+
+        seq.push(1)
+        expect(seq.to_s).to eq '001/100, 001%, t/i: 1.0s, ETA: 1m:39.0s'
+
+        4.times { seq.push(1) }
+        expect(seq.to_s).to eq '005/100, 005%, t/i: 1.0s, ETA: 1m:35.0s'
+      end
+
+      it "allows custom formatting" do
+        formatter =  -> (s) { "LimitedSequence<#{s.total_count}, #{s.min_samples}, #{s.max_samples}>" }
+        seq = LimitedSequence.new(total_count: 100, min_samples: 1, max_samples: 100, formatter: formatter)
+
+        expect(seq.to_s).to eq 'LimitedSequence<100, 1, 100>'
+      end
+    end
   end
 end

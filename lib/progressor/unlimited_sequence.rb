@@ -2,11 +2,12 @@ class Progressor
   class UnlimitedSequence
     include Formatting
 
-    attr_reader :min_samples, :max_samples
+    attr_reader :min_samples, :max_samples, :current, :start_time
 
-    def initialize(min_samples: 10, max_samples: 100)
+    def initialize(min_samples: 10, max_samples: 100, formatter: nil)
       @min_samples = min_samples
       @max_samples = max_samples
+      @formatter   = formatter
 
       raise Error.new("min_samples needs to be a positive number") if min_samples <= 0
       raise Error.new("max_samples needs to be larger than min_samples") if max_samples <= min_samples
@@ -34,6 +35,8 @@ class Progressor
     end
 
     def to_s
+      return @formatter.call(self).to_s if @formatter
+
       [
         "#{@current + 1}",
         "t: #{format_time(Time.now - @start_time)}",

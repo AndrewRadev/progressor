@@ -1,5 +1,6 @@
 require 'pp'
 require 'bundler/setup'
+require 'timecop'
 require 'progressor'
 
 RSpec.configure do |config|
