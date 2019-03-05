@@ -11,9 +11,10 @@ class Progressor
       raise Error.new("min_samples needs to be a positive number") if min_samples <= 0
       raise Error.new("max_samples needs to be larger than min_samples") if max_samples <= min_samples
 
-      @current = 0
+      @start_time   = Time.now
+      @current      = 0
       @measurements = []
-      @averages = []
+      @averages     = []
     end
 
     def push(duration)
@@ -33,7 +34,11 @@ class Progressor
     end
 
     def to_s
-      "#{@current}) t/i: #{format_time(per_iteration)}"
+      [
+        "#{@current + 1}",
+        "t: #{format_time(Time.now - @start_time)}",
+        "t/i: #{format_time(per_iteration)}",
+      ].join(', ')
     end
 
     def per_iteration
