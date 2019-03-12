@@ -76,10 +76,10 @@ class Progressor
         expect(seq.to_s).to eq '000/100, 000%, t/i: ?s, ETA: ?s'
 
         seq.push(1)
-        expect(seq.to_s).to eq '001/100, 001%, t/i: 1.0s, ETA: 1m:39.0s'
+        expect(seq.to_s).to eq '001/100, 001%, t/i: 1.00s, ETA: 01m:39s'
 
         4.times { seq.push(1) }
-        expect(seq.to_s).to eq '005/100, 005%, t/i: 1.0s, ETA: 1m:35.0s'
+        expect(seq.to_s).to eq '005/100, 005%, t/i: 1.00s, ETA: 01m:35s'
       end
 
       it "allows custom formatting" do

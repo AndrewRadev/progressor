@@ -56,16 +56,16 @@ class Progressor
         Timecop.freeze do
           seq = UnlimitedSequence.new(min_samples: 1, max_samples: 100)
 
-          expect(seq.to_s).to eq '1, t: 0.0ms, t/i: ?s'
+          expect(seq.to_s).to eq '1, t: 0.00ms, t/i: ?s'
 
           seq.push(1)
           Timecop.travel(Time.now + 1)
 
-          expect(seq.to_s).to eq '2, t: 1.0s, t/i: 1.0s'
+          expect(seq.to_s).to eq '2, t: 1.00s, t/i: 1.00s'
 
           seq.push(9)
           Timecop.travel(Time.now + 9)
-          expect(seq.to_s).to eq '3, t: 10.0s, t/i: 3.0s'
+          expect(seq.to_s).to eq '3, t: 10.00s, t/i: 3.00s'
         end
       end
 
