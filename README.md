@@ -1,4 +1,4 @@
-Full documentation can be found at: https://www.rubydoc.info/gems/progressor
+Full documentation for the latest released version can be found at: https://www.rubydoc.info/gems/progressor
 
 ## Basic example
 
@@ -114,7 +114,7 @@ The option `min_samples` determines how many loops the tool will wait until tryi
 
 The option `max_samples` is how many measurements will be retained. Those measurements will be averaged, and then those averages averaged to get a time-per-iteration estimate. A smaller number means giving more weight to later events, while a larger one would average over a larger amount of samples. The default is 100.
 
-The `formatter` is a callback that gets a progress object as an argument and you can return your own string to output on every loop.
+The `formatter` is a callback that gets a progress object as an argument and you can return your own string to output on every loop. Check `LimitedSequence` and `UnlimitedSequence` for the available methods and accessors you can use.
 
 ## Related work
 
