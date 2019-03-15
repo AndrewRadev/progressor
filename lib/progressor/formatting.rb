@@ -1,5 +1,12 @@
 class Progressor
   module Formatting
+    # Formats the given time in seconds to something human readable. Examples:
+    #
+    # - 1 second:      1.00s
+    # - 0.123 seconds: 123.00ms
+    # - 100 seconds:   01m:40s
+    # - 101.5 seconds: 01m:41s
+    # - 3661 seconds:  01h:01m:01s
     def format_time(time)
       return "?s" if time.nil?
 
@@ -19,10 +26,12 @@ class Progressor
       end
     end
 
+    # :nodoc:
     def format_int(value)
       sprintf("%02d", value)
     end
 
+    # :nodoc:
     def format_float(value)
       sprintf("%0.2f", value)
     end

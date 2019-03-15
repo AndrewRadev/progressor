@@ -88,6 +88,13 @@ class Progressor
 
         expect(seq.to_s).to eq 'LimitedSequence<100, 1, 100>'
       end
+
+      it "shows a different format if current goes over total" do
+        seq = LimitedSequence.new(total_count: 10, min_samples: 1, max_samples: 100)
+        11.times { seq.push(1) }
+
+        expect(seq.to_s).to eq '11 (expected 10), t/i: 1.00s, ETA: ???'
+      end
     end
   end
 end
