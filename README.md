@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/AndrewRadev/progressor.svg?branch=master)](https://travis-ci.org/AndrewRadev/progressor)
+[![Gem Version](https://badge.fury.io/rb/progressor.svg)](https://badge.fury.io/rb/progressor)
+
 Full documentation for the latest released version can be found at: https://www.rubydoc.info/gems/progressor
 
 ## Basic example
