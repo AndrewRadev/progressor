@@ -48,8 +48,10 @@ class Progressor
   #
   def self.puts(message, &block)
     Kernel.puts "#{message}..."
-    measurement = Benchmark.measure { block.call }
+    result = nil
+    measurement = Benchmark.measure { result = block.call }
     Kernel.puts "#{message} DONE: #{format_time(measurement.real)}"
+    result
   end
 
   # Set up a new Progressor instance. Optional parameters:
