@@ -34,7 +34,7 @@ require 'benchmark'
 #   ...
 #
 class Progressor
-  include Formatting
+  extend Formatting
 
   # Utility method to print a message with the time it took to run the contents
   # of the block.
