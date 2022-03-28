@@ -61,7 +61,7 @@ class Progressor
     end
 
     # Outputs a textual representation of the current state of the
-    # UnlimitedSequence. Shows:
+    # LimitedSequence. Shows:
     #
     # - the current number of iterations and the total count
     # - completion level in percentage
