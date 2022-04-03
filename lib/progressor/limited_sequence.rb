@@ -117,6 +117,14 @@ class Progressor
       remaining_time.round(2)
     end
 
+    # Returns the time since the object was instantiated, formatted like all
+    # the other durations. Useful for a final message to compare initial
+    # estimation to actual elapsed time.
+    #
+    def elapsed_time
+      format_time(Time.now - @start_time)
+    end
+
     private
 
     def average(collection)

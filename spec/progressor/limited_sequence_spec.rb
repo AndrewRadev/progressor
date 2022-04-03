@@ -34,6 +34,19 @@ class Progressor
       expect(seq.eta).to eq(95 * 1.2)
     end
 
+    it "provides elapsed time so far" do
+      Timecop.freeze do
+        seq = LimitedSequence.new(total_count: 100)
+        expect(seq.elapsed_time).to eq '0.00ms'
+
+        Timecop.travel(Time.now + 1)
+        expect(seq.elapsed_time).to eq '1.00s'
+
+        Timecop.travel(Time.now + 60)
+        expect(seq.elapsed_time).to eq '01m:01s'
+      end
+    end
+
     it "provides no information before min_samples have been collected" do
       seq = LimitedSequence.new(total_count: 100, min_samples: 5, max_samples: 100)
 

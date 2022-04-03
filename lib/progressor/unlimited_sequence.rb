@@ -71,7 +71,7 @@ class Progressor
 
       [
         "#{@current + 1}",
-        "t: #{format_time(Time.now - @start_time)}",
+        "t: #{elapsed_time}",
         "t/i: #{format_time(per_iteration)}",
       ].join(', ')
     end
@@ -93,6 +93,13 @@ class Progressor
     #
     def eta
       # No estimation possible
+    end
+
+    # Returns the time since the object was instantiated, formatted like all
+    # the other durations.
+    #
+    def elapsed_time
+      format_time(Time.now - @start_time)
     end
 
     private
