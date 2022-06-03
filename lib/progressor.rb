@@ -3,6 +3,7 @@ require 'progressor/error'
 require 'progressor/formatting'
 require 'progressor/limited_sequence'
 require 'progressor/unlimited_sequence'
+require 'progressor/iteration'
 
 require 'benchmark'
 
