@@ -99,4 +99,12 @@ class Progressor
   def skip(n)
     @sequence.skip(n)
   end
+
+  # Returns the time since the sequence was started, formatted like all the
+  # other durations. Useful for a final message to compare initial estimation
+  # to actual elapsed time.
+  #
+  def elapsed_time
+    @sequence.elapsed_time
+  end
 end
