@@ -40,6 +40,20 @@ describe Progressor::Iteration do
       expect(results).to eq [["test", 0], ["test", 1]]
     end
 
+    it "iterates a collection with a custom format method" do
+      collection_class =  Class.new do
+        def find_each(&block)
+          block.call("test")
+        end
+      end
+
+      expect(Kernel).to receive(:puts).with(/^\[.*\] Working on TEST$/)
+
+      Progressor::Iteration.iterate(:find_each, collection_class.new, format: :upcase) do |item, i|
+        # pass
+      end
+    end
+
     it "iterates a collection with a block with no index" do
       collection_class =  Class.new do
         def find_each(&block)
