@@ -100,6 +100,26 @@ The format is:
 <current>, t: <time from start>, t/i: <time per iteration>
 ```
 
+## Simpler iteration
+
+For `ActiveRecord` and other iterable collections, it's possible to skip some boilerplate. For example, you might start from this:
+
+``` ruby
+Record.not_processed.find_each do |record|
+  record.process
+end
+```
+
+In order to add measurements, you could instantiate a `Progressor` etc like in the above example, or you could do this:
+
+``` ruby
+Progressor::Iteration.find_each(Record.not_processed) do |record|
+  record.process
+end
+```
+
+And it'll add some default print statements. Check the API documentation or the code for details.
+
 ## Configuration
 
 Apart from `total_count`, which is optional and affects the kind of sequence that will be stored, you can provide `min_samples` and `max_samples`. You can also provide a custom formatter:
